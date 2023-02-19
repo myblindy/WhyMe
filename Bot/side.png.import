@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://o26nw8lwvo36"
-path="res://.godot/imported/front-idle-blink.png-62aa8ad4c0d1a1c6032540ced53e1dbe.ctex"
+uid="uid://c4e1vfuj4skrt"
+path="res://.godot/imported/side.png-f3c069b7fc81373564701b690fe7ca8e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Bot/front-idle-blink.png"
-dest_files=["res://.godot/imported/front-idle-blink.png-62aa8ad4c0d1a1c6032540ced53e1dbe.ctex"]
+source_file="res://Bot/side.png"
+dest_files=["res://.godot/imported/side.png-f3c069b7fc81373564701b690fe7ca8e.ctex"]
 
 [params]
 

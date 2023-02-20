@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://bm4doxg10mpav"]
+
+[ext_resource type="Script" path="res://Scenes/Object.gd" id="1_3yw2g"]
+[ext_resource type="Texture2D" uid="uid://dff38hxk5h6rj" path="res://Assets/World/object-background.png" id="2_kpqwa"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_woj4s"]
+font_size = 220
+outline_size = 25
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 0
+
+[node name="Object" type="Node2D"]
+script = ExtResource("1_3yw2g")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_kpqwa")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -160.0
+offset_top = -160.0
+offset_right = 160.0
+offset_bottom = 160.0
+pivot_offset = Vector2(160, 160)
+label_settings = SubResource("LabelSettings_woj4s")
+horizontal_alignment = 1
+vertical_alignment = 1

@@ -1,7 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://bi03q2b71vp0i"]
+[gd_scene load_steps=6 format=3 uid="uid://b7fb23y67blgx"]
 
-[ext_resource type="Texture2D" uid="uid://vhmg5sj8c4n2" path="res://Bot/front.png" id="2_6vx7w"]
 [ext_resource type="Script" path="res://Scenes/Bot.gd" id="2_dosgm"]
+[ext_resource type="Texture2D" uid="uid://vhmg5sj8c4n2" path="res://Assets/Bot/front.png" id="2_f0li1"]
 
 [sub_resource type="Animation" id="Animation_sbyda"]
 length = 0.001
@@ -52,6 +52,6 @@ libraries = {
 }
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_6vx7w")
+texture = ExtResource("2_f0li1")
 hframes = 12
 vframes = 8

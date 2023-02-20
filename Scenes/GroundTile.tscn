@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://bwg1dlbympjk2"]
+
+[ext_resource type="Texture2D" uid="uid://bxc16ruut6425" path="res://Assets/white-pixel.png" id="1_do324"]
+[ext_resource type="Script" path="res://Scenes/GroundTile.gd" id="1_ph015"]
+
+[node name="GroundTile" type="Node2D"]
+script = ExtResource("1_ph015")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_do324")

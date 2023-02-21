@@ -1,0 +1,49 @@
+[gd_scene load_steps=2 format=3 uid="uid://bjddlntftvop6"]
+
+[ext_resource type="Script" path="res://Scenes/RuntimeUI_CommandList.gd" id="1_e1i2h"]
+
+[node name="RuntimeUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_e1i2h")
+
+[node name="RootContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 60
+theme_override_constants/margin_top = 60
+theme_override_constants/margin_right = 60
+theme_override_constants/margin_bottom = 60
+
+[node name="HBoxContainer" type="HBoxContainer" parent="RootContainer"]
+layout_mode = 2
+
+[node name="AllCommandList" type="VBoxContainer" parent="RootContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="Label" type="Label" parent="RootContainer/HBoxContainer/AllCommandList"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "All Commands:"
+
+[node name="MarginContainer" type="MarginContainer" parent="RootContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 30
+
+[node name="ProgramList" type="VBoxContainer" parent="RootContainer/HBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="Label" type="Label" parent="RootContainer/HBoxContainer/MarginContainer/ProgramList"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "Program:"

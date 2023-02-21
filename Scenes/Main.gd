@@ -35,7 +35,7 @@ func _ready():
 	# bots
 	var first := true
 	var offset: Vector2
-	for pos in [Vector2(0, 0), Vector2(1, 0), Vector2(6, 0), Vector2(0, 6), Vector2(6, 6)]:
+	for pos in [Vector2(0, 0)]:
 		var bot := bot_template.instantiate()
 		add_child(bot)
 		bots.append(bot)

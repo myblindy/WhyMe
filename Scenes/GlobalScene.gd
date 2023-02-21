@@ -5,6 +5,17 @@ enum TILE_TYPE
 	NONE, TILE0, TILE1
 }
 
-# Called when the node enters the scene tree for the first time.
+enum MOVE_TYPE
+{
+	MOVE_N, MOVE_E, MOVE_S, MOVE_W
+}
+
+var known_commands := [
+	CommandMove,
+	CommandPickup
+]
+
+var commands := []
+
 func _ready():
-	pass # Replace with function body.
+	pass 

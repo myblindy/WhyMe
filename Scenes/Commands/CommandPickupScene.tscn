@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://6rrofkfqgb43"]
+
+[ext_resource type="Script" path="res://Scenes/Commands/CommandPickupScene.gd" id="1_njwu6"]
+
+[node name="CommandPickupScene" type="HBoxContainer"]
+script = ExtResource("1_njwu6")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+text = "Pickup"

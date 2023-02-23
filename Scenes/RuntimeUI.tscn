@@ -23,27 +23,47 @@ theme_override_constants/margin_top = 60
 theme_override_constants/margin_right = 60
 theme_override_constants/margin_bottom = 60
 
-[node name="HBoxContainer" type="HBoxContainer" parent="RootContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="RootContainer"]
 layout_mode = 2
 
-[node name="AllCommandList" type="VBoxContainer" parent="RootContainer/HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="RootContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="AllCommandList" type="VBoxContainer" parent="RootContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 
-[node name="Label" type="Label" parent="RootContainer/HBoxContainer/AllCommandList"]
+[node name="Label" type="Label" parent="RootContainer/VBoxContainer/HBoxContainer/AllCommandList"]
 layout_mode = 2
 size_flags_vertical = 1
 text = "All Commands:"
 
-[node name="MarginContainer" type="MarginContainer" parent="RootContainer/HBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="RootContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 30
 
-[node name="ProgramList" type="VBoxContainer" parent="RootContainer/HBoxContainer/MarginContainer"]
+[node name="ProgramList" type="VBoxContainer" parent="RootContainer/VBoxContainer/HBoxContainer/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 
-[node name="Label" type="Label" parent="RootContainer/HBoxContainer/MarginContainer/ProgramList"]
+[node name="Label" type="Label" parent="RootContainer/VBoxContainer/HBoxContainer/MarginContainer/ProgramList"]
 layout_mode = 2
 size_flags_vertical = 1
 text = "Program:"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="RootContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="RunButton" type="Button" parent="RootContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "Run"
+
+[node name="StopButton" type="Button" parent="RootContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+disabled = true
+text = "Stop"
+
+[connection signal="pressed" from="RootContainer/VBoxContainer/HBoxContainer2/RunButton" to="." method="_on_run_button_pressed"]
+[connection signal="pressed" from="RootContainer/VBoxContainer/HBoxContainer2/StopButton" to="." method="_on_stop_button_pressed"]

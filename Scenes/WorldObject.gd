@@ -1,4 +1,5 @@
 extends Node2D
+class_name WorldObject
 
 @onready var _sprite := $Sprite2D
 @onready var _label := $Label

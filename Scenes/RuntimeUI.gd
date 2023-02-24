@@ -8,7 +8,7 @@ extends Control
 
 func _ready() -> void:
 	GlobalScene.run_state_changed.connect(_run_state_changed)
-	GlobalScene.current_command_index_changed.connect(_current_command_index_changed)
+	GlobalScene.selected_bot_changed.connect(_selected_bot_changed)
 	
 	for command_template in GlobalScene.known_commands:
 		var button := Button.new()
@@ -18,10 +18,14 @@ func _ready() -> void:
 		button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 		button.pressed.connect(_add_command.bind(command_template))
 		
+func _selected_bot_changed() -> void:
+	GlobalScene.selected_bot.current_command_index_changed.connect(_current_command_index_changed)
+	_current_command_index_changed()
+		
 func _update_all_current_markers() -> void:
 	for i in _program_list.get_child_count():
 		if i > 0:
-			_program_list.get_child(i).get_child(0).button_pressed = i - 1 == GlobalScene.current_command_index
+			_program_list.get_child(i).get_child(0).button_pressed = i - 1 == GlobalScene.selected_bot.current_command_index
 		
 func _run_state_changed() -> void:
 	_run_button.disabled = GlobalScene.run_state

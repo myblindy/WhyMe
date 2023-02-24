@@ -1,5 +1,7 @@
 extends Node2D
 
+@onready var _game_board := $GameBoard
+
 const tile_count := Vector2(7, 7)
 var tile_size: Vector2
 var real_tile_size: Vector2
@@ -7,7 +9,7 @@ var window_size: Vector2
 
 const _bot_template := preload("res://Scenes/Bot.tscn")
 const _ground_tile_template := preload("res://Scenes/GroundTile.tscn")
-const _object_template := preload("res://Scenes/Object.tscn")
+const _object_template := preload("res://Scenes/WorldObject.tscn")
 
 var inbox
 var outbox
@@ -15,7 +17,7 @@ var outbox
 func _add_new_object(location: Vector2, offset: Vector2, value: String):
 	var object := _object_template.instantiate()
 	GlobalScene.objects.append(object)
-	add_child(object)
+	_game_board.add_child(object)
 	
 	object.value = value
 	object.z_index = 5
@@ -30,7 +32,7 @@ func _ready():
 	var offset: Vector2
 	for pos in [Vector2(0, 0)]:
 		var bot := _bot_template.instantiate()
-		add_child(bot)
+		_game_board.add_child(bot)
 		GlobalScene.bots.append(bot)
 		
 		if first:
@@ -45,18 +47,17 @@ func _ready():
 				
 			offset = window_size - tile_size * tile_count
 		
-		bot.position = offset + (pos + Vector2(0.5, 0.5)) * tile_size
-		bot.scale *= real_tile_size.y
+		bot.position = pos #offset + (pos + Vector2(0.5, 0.5)) * tile_size
 		bot.z_index = 10
+	GlobalScene.selected_bot = GlobalScene.bots[0]
 		
 	# tiles
 	for y in tile_count.y:
 		for x in tile_count.x:
 			var tile := _ground_tile_template.instantiate()
-			add_child(tile)
+			_game_board.add_child(tile)
 			
-			tile.position = offset + Vector2(x + 0.5, y + 0.5) * tile_size
-			tile.scale *= real_tile_size.y
+			tile.position = Vector2(x, y)
 			tile.tile_kind = GlobalScene.TILE_TYPE.TILE0 if int(x * tile_count.x + y) % 2 == 0 else GlobalScene.TILE_TYPE.TILE1
 			tile.z_index = 0
 			
@@ -69,6 +70,10 @@ func _ready():
 	_add_new_object(Vector2(2, 1), offset, "B")
 	_add_new_object(Vector2(3, 1), offset, "C")
 	_add_new_object(Vector2(4, 1), offset, "D")
+	
+	# set up the game board transform
+	_game_board.position = offset + Vector2(0.5, 0.5) * tile_size
+	_game_board.scale = Vector2(real_tile_size.y, real_tile_size.y)
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

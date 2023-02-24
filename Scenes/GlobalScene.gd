@@ -55,6 +55,7 @@ var run_state := false:
 			_saved_objects = [] + objects
 		else:
 			objects = _saved_objects
+			objects_changed.emit()
 			
 func find_object(position: Vector2) -> WorldObject:
 	for object in objects:
@@ -62,8 +63,10 @@ func find_object(position: Vector2) -> WorldObject:
 			return object
 	return null
 
+signal objects_changed
 func remove_object(position: Vector2) -> void:
 	for i in len(objects):
 		if objects[i].position == position:
 			objects.remove_at(i)
+			objects_changed.emit()
 			return

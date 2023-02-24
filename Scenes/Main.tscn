@@ -10,4 +10,4 @@ script = ExtResource("1_ivip1")
 
 [node name="RuntimeUI" parent="CanvasLayer" instance=ExtResource("2_hxw8n")]
 
-[node name="GameBoard" type="Node2D" parent="."]
+[node name="GameBoardRoot" type="Node2D" parent="."]

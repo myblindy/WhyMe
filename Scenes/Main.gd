@@ -14,7 +14,7 @@ const _object_template := preload("res://Scenes/WorldObject.tscn")
 var inbox
 var outbox
 
-func _add_new_object(location: Vector2, offset: Vector2, value: String):
+func _add_new_object(location: Vector2, value: String):
 	var object := _object_template.instantiate()
 	GlobalScene.objects.append(object)
 	_game_board_root.add_child(object)
@@ -75,15 +75,11 @@ func _ready() -> void:
 				tile.numeric_address = numeric_address
 
 	# objects
-	_add_new_object(Vector2(1, 1), offset, "A")
-	_add_new_object(Vector2(2, 1), offset, "B")
-	_add_new_object(Vector2(3, 1), offset, "C")
-	_add_new_object(Vector2(4, 1), offset, "D")
+	_add_new_object(Vector2(1, 1), "A")
+	_add_new_object(Vector2(2, 1), "B")
+	_add_new_object(Vector2(3, 1), "C")
+	_add_new_object(Vector2(4, 1), "D")
 	
 	# set up the game board transform
 	_game_board_root.position = offset + Vector2(0.5, 0.5) * tile_size
 	_game_board_root.scale = Vector2(real_tile_size.y, real_tile_size.y)
-	
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass

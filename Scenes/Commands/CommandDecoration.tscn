@@ -1,0 +1,44 @@
+[gd_scene load_steps=6 format=3 uid="uid://dugfjs5d28mjs"]
+
+[ext_resource type="Script" path="res://Scenes/Commands/CommandDecoration.gd" id="1_vj1me"]
+[ext_resource type="Texture2D" uid="uid://jgh8e4sn60do" path="res://Assets/Gui/Standart Button V1/Standart Button Normal/Standart Button Normal 1.png" id="2_wgcao"]
+[ext_resource type="Texture2D" uid="uid://dojfbrsl2thma" path="res://Assets/Gui/Standart Button V1/Standart Button Hover/Standart Button Hover 1.png" id="3_e2byu"]
+[ext_resource type="Texture2D" uid="uid://diq05o2dkngvx" path="res://Assets/Gui/Standart Button V1/Standart Button Disable/Standart Button Disable 1.png" id="4_hmakb"]
+[ext_resource type="Texture2D" uid="uid://damhyntc0iekw" path="res://Assets/Gui/Standart Button V1/Standart Button Active/Standart Button Active 1.png" id="5_oflpr"]
+
+[node name="CommandDecoration" type="HBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_vj1me")
+
+[node name="CurrentCheckBox" type="CheckBox" parent="."]
+layout_mode = 2
+disabled = true
+
+[node name="UpButton" type="TextureButton" parent="."]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = ExtResource("2_wgcao")
+texture_hover = ExtResource("3_e2byu")
+texture_disabled = ExtResource("4_hmakb")
+texture_focused = ExtResource("5_oflpr")
+
+[node name="DownButton" type="Button" parent="."]
+layout_mode = 2
+text = "Dn"
+
+[node name="DeleteButton" type="Button" parent="."]
+layout_mode = 2
+text = "Del"
+
+[node name="CommandRoot" type="MarginContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[connection signal="pressed" from="UpButton" to="." method="_on_up_button_pressed"]
+[connection signal="pressed" from="DownButton" to="." method="_on_down_button_pressed"]
+[connection signal="pressed" from="DeleteButton" to="." method="_on_delete_button_pressed"]

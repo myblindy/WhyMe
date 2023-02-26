@@ -134,8 +134,8 @@ tracks/4/keys = {
 "values": [false]
 }
 
-[sub_resource type="Animation" id="Animation_hyss1"]
-resource_name = "walk-right"
+[sub_resource type="Animation" id="Animation_fku1o"]
+resource_name = "walk-down"
 length = 3.0
 loop_mode = 1
 tracks/0/type = "value"
@@ -148,7 +148,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ExtResource("3_5mk4j")]
+"values": [ExtResource("2_f0li1")]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -172,7 +172,7 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0.1),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [true]
+"values": [false]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -184,7 +184,7 @@ tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [13]
+"values": [12]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
@@ -196,7 +196,7 @@ tracks/4/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [7]
+"values": [8]
 }
 
 [sub_resource type="Animation" id="Animation_mv7cx"]
@@ -264,8 +264,8 @@ tracks/4/keys = {
 "values": [7]
 }
 
-[sub_resource type="Animation" id="Animation_fku1o"]
-resource_name = "walk-down"
+[sub_resource type="Animation" id="Animation_hyss1"]
+resource_name = "walk-right"
 length = 3.0
 loop_mode = 1
 tracks/0/type = "value"
@@ -278,7 +278,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ExtResource("2_f0li1")]
+"values": [ExtResource("3_5mk4j")]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -302,7 +302,7 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0.1),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [false]
+"values": [true]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -314,7 +314,7 @@ tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [12]
+"values": [13]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
@@ -326,7 +326,7 @@ tracks/4/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [8]
+"values": [7]
 }
 
 [sub_resource type="Animation" id="Animation_7w6ga"]

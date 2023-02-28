@@ -32,6 +32,5 @@ extends Node2D
 		
 		numeric_address = new_numeric_address
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
-	_numeric_address_label.scale = Vector2(0.5, 0.5) / _numeric_address_label.size
+	scale = Vector2.ONE / _numeric_address_label.size

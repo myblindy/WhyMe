@@ -25,12 +25,21 @@ func _add_new_object(location: Vector2, value: String):
 	object.scale *= 0.8
 	
 func _objects_changed() -> void:
+	var seen := {}
 	for node in _game_board_root.get_children():
 		if node is WorldObject:
-			if GlobalScene.objects.find(node) >= 0:
+			var found_index := GlobalScene.objects.find(node)
+			if found_index >= 0:
 				node.show()
+				seen[found_index] = null
 			else:
 				node.hide()
+				
+	# any left over objects have to be added to the world
+	for object_index in len(GlobalScene.objects):
+		if not seen.has(object_index):
+			var object: WorldObject = GlobalScene.objects[object_index]
+			_add_new_object(object.position, object.value)
 
 func _ready() -> void:
 	window_size = get_viewport().size

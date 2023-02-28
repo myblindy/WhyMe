@@ -6,7 +6,7 @@ class_name CommandDecoration
 @onready var _down_button := $DownButton
 @onready var _command_root := $CommandRoot
 
-var command: Command:
+var command:
 	get: 
 		return command
 	set(new_command):
@@ -16,9 +16,7 @@ var command: Command:
 			if _command_root.get_child_count() > 0:
 				_command_root.remove_child(_command_root.get_child(0))
 			
-			var command_scene: Control = command.scene.instantiate()
-			command_scene.command = command
-			_command_root.add_child(command_scene)
+			_command_root.add_child(command)
 			
 var is_current: bool:
 	get:
@@ -44,9 +42,6 @@ var can_move_down := true:
 signal up_pressed
 signal down_pressed
 signal delete_pressed
-
-func _ready() -> void:
-	pass # Replace with function body.
 
 func _on_up_button_pressed() -> void:
 	up_pressed.emit()

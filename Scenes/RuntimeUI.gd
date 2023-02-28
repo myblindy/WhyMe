@@ -41,7 +41,7 @@ func _current_command_index_changed() -> void:
 	_update_all_current_markers()
 
 func _add_command(command_template) -> void:
-	var command = command_template.new()
+	var command = command_template.scene.instantiate()
 	GlobalScene.commands.append(command)
 	
 	var scene: CommandDecoration = _command_decoration_scene.instantiate()

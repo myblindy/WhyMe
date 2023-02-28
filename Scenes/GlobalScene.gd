@@ -23,17 +23,20 @@ var selected_bot: Bot:
 			selected_bot_changed.emit()
 
 var numeric_addresses := {
-	Vector2(0, 0): 2,
 	Vector2(2, 3): 0,
 	Vector2(2, 4): 1,
+	Vector2(0, 0): 2,
 }
 
 var _saved_objects: Array
 var objects := []
 
+const _world_object_scene := preload("res://Scenes/WorldObject.tscn")
+
 var known_commands := [
-	CommandMove,
-	CommandPickup
+	{ scene = preload("res://Scenes/Commands/CommandMove.tscn"), name = "Move" },
+	{ scene = preload("res://Scenes/Commands/CommandPickup.tscn"), name = "Pickup" },
+	{ scene = preload("res://Scenes/Commands/CommandDrop.tscn"), name = "Drop" },
 ]
 
 var commands := []
@@ -42,10 +45,9 @@ signal run_state_changed
 var run_state := false:
 	get:
 		return run_state
-	set(new_run_state):
-		var changed := run_state != new_run_state
-		run_state = new_run_state
-		if changed:
+	set(new_run_state):		
+		if run_state != new_run_state:
+			run_state = new_run_state
 			run_state_changed.emit()
 			
 		for bot in bots:
@@ -70,3 +72,11 @@ func remove_object(position: Vector2) -> void:
 			objects.remove_at(i)
 			objects_changed.emit()
 			return
+
+func add_object(position: Vector2, object: WorldObject) -> void:
+	var new_object := _world_object_scene.instantiate()
+	new_object.position = position
+	new_object.value = object.value
+	
+	objects.append(new_object)
+	objects_changed.emit()

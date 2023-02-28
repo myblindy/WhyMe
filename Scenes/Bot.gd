@@ -59,9 +59,9 @@ func _process(delta) -> void:
 		if not _action_running:
 			if current_command_index < GlobalScene.commands.size() - 1:
 				current_command_index += 1
-				var next_command: Command = GlobalScene.commands[current_command_index]
+				var next_command = GlobalScene.commands[current_command_index]
 				
-				if next_command is CommandPickup:
+				if next_command is CommandPickup or next_command is CommandDrop:
 					_start_action(1)
 				elif next_command is CommandMove:
 					_start_action(1)
@@ -80,7 +80,7 @@ func _process(delta) -> void:
 			_action_percentage += delta / _action_duration_sec
 			
 			# handle movement
-			var command: Command = GlobalScene.commands[current_command_index]
+			var command = GlobalScene.commands[current_command_index]
 			
 			if command is CommandMove:
 				var delta_position: Vector2
@@ -104,6 +104,11 @@ func _process(delta) -> void:
 					if object:
 						GlobalScene.remove_object(position)
 						held_object = object
+				elif command is CommandDrop:
+					if held_object:
+						GlobalScene.remove_object(position)
+						GlobalScene.add_object(position, held_object)
+						held_object = null
 				elif command is CommandMove:
 					_animation_player.play("idle-blink")
 				

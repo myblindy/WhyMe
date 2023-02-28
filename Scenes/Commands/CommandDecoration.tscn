@@ -1,10 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://dugfjs5d28mjs"]
+[gd_scene load_steps=2 format=3 uid="uid://dugfjs5d28mjs"]
 
 [ext_resource type="Script" path="res://Scenes/Commands/CommandDecoration.gd" id="1_vj1me"]
-[ext_resource type="Texture2D" uid="uid://jgh8e4sn60do" path="res://Assets/Gui/Standart Button V1/Standart Button Normal/Standart Button Normal 1.png" id="2_wgcao"]
-[ext_resource type="Texture2D" uid="uid://dojfbrsl2thma" path="res://Assets/Gui/Standart Button V1/Standart Button Hover/Standart Button Hover 1.png" id="3_e2byu"]
-[ext_resource type="Texture2D" uid="uid://diq05o2dkngvx" path="res://Assets/Gui/Standart Button V1/Standart Button Disable/Standart Button Disable 1.png" id="4_hmakb"]
-[ext_resource type="Texture2D" uid="uid://damhyntc0iekw" path="res://Assets/Gui/Standart Button V1/Standart Button Active/Standart Button Active 1.png" id="5_oflpr"]
 
 [node name="CommandDecoration" type="HBoxContainer"]
 anchors_preset = 15
@@ -18,14 +14,9 @@ script = ExtResource("1_vj1me")
 layout_mode = 2
 disabled = true
 
-[node name="UpButton" type="TextureButton" parent="."]
+[node name="UpButton" type="Button" parent="."]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-texture_normal = ExtResource("2_wgcao")
-texture_hover = ExtResource("3_e2byu")
-texture_disabled = ExtResource("4_hmakb")
-texture_focused = ExtResource("5_oflpr")
+text = "Up"
 
 [node name="DownButton" type="Button" parent="."]
 layout_mode = 2

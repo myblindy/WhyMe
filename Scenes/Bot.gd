@@ -53,7 +53,24 @@ func _reset_action() -> void:
 func _start_action(duration_sec: float) -> void:
 	_action_running = true
 	_action_duration_sec = duration_sec
+	
+func _get_next_move_type(current: Vector2, target: Vector2):
+	if position.x > target.x:
+		return GlobalScene.MOVE_TYPE.MOVE_W
+	elif position.x < target.x:
+		return GlobalScene.MOVE_TYPE.MOVE_E
+	elif position.y > target.y:
+		return GlobalScene.MOVE_TYPE.MOVE_N
+	else:
+		return GlobalScene.MOVE_TYPE.MOVE_S
+	return null
+	
+func _get_command_target_position(command):
+	if command is CommandPickup and command.drop_to_address:
+		return GlobalScene.numeric_addresses.keys()[command.drop_to_address]
+	return null
 
+var _current_move_type
 func _process(delta) -> void:
 	if GlobalScene.run_state:
 		if not _action_running:
@@ -61,12 +78,24 @@ func _process(delta) -> void:
 				current_command_index += 1
 				var next_command = GlobalScene.commands[current_command_index]
 				
-				if next_command is CommandPickup or next_command is CommandDrop:
+				if (next_command is CommandPickup or next_command is CommandDrop) and next_command.drop_to_ground:
 					_start_action(1)
-				elif next_command is CommandMove:
+					_current_move_type = null
+				else:
 					_start_action(1)
 					
-					match next_command.move_type:
+					if next_command is CommandMove:
+						_current_move_type = next_command.move_type
+					else:
+						var cp := next_command as CommandPickup
+						
+						if cp and cp.drop_to_address >= 0:
+							var target: Vector2 = GlobalScene.numeric_addresses.keys()[cp.drop_to_address]
+							_current_move_type = _get_next_move_type(position, target)
+						else:
+							_current_move_type = null
+					
+					match _current_move_type:
 						GlobalScene.MOVE_TYPE.MOVE_S:
 							_animation_player.play("walk-down")
 						GlobalScene.MOVE_TYPE.MOVE_N:
@@ -77,14 +106,14 @@ func _process(delta) -> void:
 							_animation_player.play("walk-left")
 					
 		else:
-			_action_percentage += delta / _action_duration_sec
+			_action_percentage = clamp(_action_percentage + delta / _action_duration_sec, 0, 1)
 			
 			# handle movement
 			var command = GlobalScene.commands[current_command_index]
 			
-			if command is CommandMove:
+			if _current_move_type != null:
 				var delta_position: Vector2
-				match command.move_type:
+				match _current_move_type:
 					GlobalScene.MOVE_TYPE.MOVE_S:
 						delta_position = Vector2(0, 1)
 					GlobalScene.MOVE_TYPE.MOVE_N:
@@ -94,23 +123,44 @@ func _process(delta) -> void:
 					GlobalScene.MOVE_TYPE.MOVE_W:
 						delta_position = Vector2(-1, 0)
 				
-				position = lerp(_action_started_at_position, _action_started_at_position + delta_position, clamp(_action_percentage, 0, 1))
+				position = lerp(_action_started_at_position, _action_started_at_position + delta_position, _action_percentage)
 			
 			if _action_percentage >= 1:
 				# command done
 				
+				var action_done := false
+				
 				if command is CommandPickup:
-					var object: WorldObject = GlobalScene.find_object(position)
-					if object:
-						GlobalScene.remove_object(position)
-						held_object = object
+					if command.drop_to_address:
+						var target: Vector2 = _get_command_target_position(command) 
+						_current_move_type = _get_next_move_type(position, target)
+					
+					if command.drop_to_ground or _current_move_type == null:
+						var object: WorldObject = GlobalScene.find_object(position)
+						if object:
+							GlobalScene.remove_object(position)
+							held_object = object
+						action_done = true
 				elif command is CommandDrop:
 					if held_object:
 						GlobalScene.remove_object(position)
 						GlobalScene.add_object(position, held_object)
 						held_object = null
+					action_done = true
 				elif command is CommandMove:
+					action_done = true
+					
+				# we're either done with this move or we still have pathfinding nodes to do
+				if not action_done:
+					var target: Vector2 = _get_command_target_position(command)
+					_current_move_type = _get_next_move_type(position, target)
+					
+					if _current_move_type != null:
+						_action_started_at_position = position
+						_action_percentage = 0
+					else:
+						action_done = true
+						
+				if action_done:
 					_animation_player.play("idle-blink")
-				
-				# and done, next cycle will start the next command
-				_reset_action()
+					_reset_action()

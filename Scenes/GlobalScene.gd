@@ -10,7 +10,7 @@ enum MOVE_TYPE
 	MOVE_N, MOVE_E, MOVE_S, MOVE_W
 }
 
-var bots := []
+var bots: Array[Bot] = []
 
 signal selected_bot_changed
 var selected_bot: Bot:
@@ -28,12 +28,12 @@ var numeric_addresses := {
 	Vector2(0, 0): 2,
 }
 
-var _saved_objects: Array
-var objects := []
+var _saved_objects: Array[WorldObject]
+var objects: Array[WorldObject] = []
 
 const _world_object_scene := preload("res://Scenes/WorldObject.tscn")
 
-var known_commands := [
+const known_commands := [
 	{ scene = preload("res://Scenes/Commands/CommandMove.tscn"), name = "Move" },
 	{ scene = preload("res://Scenes/Commands/CommandPickup.tscn"), name = "Pickup" },
 	{ scene = preload("res://Scenes/Commands/CommandDrop.tscn"), name = "Drop" },
@@ -54,7 +54,8 @@ var run_state := false:
 			bot.current_command_index = -1
 			
 		if new_run_state:
-			_saved_objects = [] + objects
+			_saved_objects = []
+			_saved_objects.append_array(objects)
 		else:
 			objects = _saved_objects
 			objects_changed.emit()

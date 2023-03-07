@@ -84,8 +84,8 @@ func _ready() -> void:
 				tile.numeric_address = numeric_address
 
 	# objects
-	_add_new_object(Vector2(1, 1), "A")
-	_add_new_object(Vector2(2, 1), "B")
+	_add_new_object(Vector2(1, 1), "3")
+	_add_new_object(Vector2(2, 1), "5")
 	_add_new_object(Vector2(3, 1), "C")
 	_add_new_object(Vector2(4, 1), "D")
 	

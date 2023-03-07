@@ -37,6 +37,7 @@ const known_commands := [
 	{ scene = preload("res://Scenes/Commands/CommandMove.tscn"), name = "Move" },
 	{ scene = preload("res://Scenes/Commands/CommandPickup.tscn"), name = "Pickup" },
 	{ scene = preload("res://Scenes/Commands/CommandDrop.tscn"), name = "Drop" },
+	{ scene = preload("res://Scenes/Commands/CommandAdd.tscn"), name = "Add" },
 ]
 
 var commands := []

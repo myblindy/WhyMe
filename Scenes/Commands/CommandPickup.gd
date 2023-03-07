@@ -31,7 +31,7 @@ func _rebuild_menu():
 	
 	popup.add_item(_ground_label_name)
 	for address in GlobalScene.numeric_addresses.values():
-		popup.add_item(str(address))
+		popup.add_item(str(address + 1))
 	
 func _set_menu_button_text() -> void:
 	_menu_button.text = "Gnd" if drop_to_ground else _menu_button.get_popup().get_item_text(drop_to_address + 1)

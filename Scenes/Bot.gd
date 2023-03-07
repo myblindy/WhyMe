@@ -55,18 +55,18 @@ func _start_action(duration_sec: float) -> void:
 	_action_duration_sec = duration_sec
 	
 func _get_next_move_type(current: Vector2, target: Vector2):
-	if position.x > target.x:
+	if current.x > target.x:
 		return GlobalScene.MOVE_TYPE.MOVE_W
-	elif position.x < target.x:
+	elif current.x < target.x:
 		return GlobalScene.MOVE_TYPE.MOVE_E
-	elif position.y > target.y:
+	elif current.y > target.y:
 		return GlobalScene.MOVE_TYPE.MOVE_N
-	else:
+	elif current.y < target.y:
 		return GlobalScene.MOVE_TYPE.MOVE_S
 	return null
 	
 func _get_command_target_position(command):
-	if command is CommandPickup and command.drop_to_address:
+	if command is CommandPickup and command.drop_to_address >= 0:
 		return GlobalScene.numeric_addresses.keys()[command.drop_to_address]
 	return null
 
@@ -79,6 +79,9 @@ func _process(delta) -> void:
 				var next_command = GlobalScene.commands[current_command_index]
 				
 				if (next_command is CommandPickup or next_command is CommandDrop) and next_command.drop_to_ground:
+					_start_action(1)
+					_current_move_type = null
+				elif next_command is CommandAdd:
 					_start_action(1)
 					_current_move_type = null
 				else:
@@ -131,7 +134,7 @@ func _process(delta) -> void:
 				var action_done := false
 				
 				if command is CommandPickup:
-					if command.drop_to_address:
+					if command.drop_to_address >= 0:
 						var target: Vector2 = _get_command_target_position(command) 
 						_current_move_type = _get_next_move_type(position, target)
 					
@@ -148,6 +151,11 @@ func _process(delta) -> void:
 						held_object = null
 					action_done = true
 				elif command is CommandMove:
+					action_done = true
+				elif command is CommandAdd:
+					var ground_object = GlobalScene.find_object(position)
+					if ground_object and ground_object.value.is_valid_int() and held_object and held_object.value.is_valid_int():
+						held_object.value = str(int(held_object.value) + int(ground_object.value))
 					action_done = true
 					
 				# we're either done with this move or we still have pathfinding nodes to do

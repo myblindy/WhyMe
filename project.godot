@@ -29,6 +29,10 @@ window/size/borderless=true
 
 project/assembly_name="WhyMe"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/fontawesome/plugin.cfg")
+
 [gui]
 
 theme/default_theme_scale=2.0

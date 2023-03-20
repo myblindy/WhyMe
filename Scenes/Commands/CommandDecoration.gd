@@ -1,7 +1,7 @@
 extends HBoxContainer
 class_name CommandDecoration
 
-@onready var _current_check_box := $CurrentCheckBox
+@onready var _pid_marker := $PidMarker
 @onready var _up_button := $UpButton
 @onready var _down_button := $DownButton
 @onready var _command_root := $CommandRoot
@@ -23,7 +23,7 @@ var is_current: bool:
 		return is_current
 	set(new_is_current):
 		is_current = new_is_current
-		_current_check_box.button_pressed = is_current
+		_pid_marker.modulate = Color.WHITE if is_current else Color.TRANSPARENT
 		
 var can_move_up := true:
 	get:

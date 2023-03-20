@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=4 format=3 uid="uid://bsl6sjrnhav8f"]
 
 [ext_resource type="Script" path="res://Scenes/Commands/CommandDecoration.gd" id="1_vj1me"]
-[ext_resource type="PackedScene" uid="uid://bglsjbinwy6ff" path="res://Scenes/Controls/PidMarkerControl.tscn" id="2_rk46o"]
+[ext_resource type="FontFile" uid="uid://cptnl3mm2w7sq" path="res://addons/fontawesome/fonts/fa-solid-900.woff2" id="2_fjbu8"]
+[ext_resource type="Script" path="res://addons/fontawesome/FontAwesome.gd" id="3_uxc33"]
 
 [node name="CommandDecoration" type="HBoxContainer"]
 anchors_preset = 15
@@ -11,20 +12,35 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_vj1me")
 
-[node name="CurrentCheckBox" parent="." instance=ExtResource("2_rk46o")]
+[node name="PidMarker" type="Label" parent="."]
 layout_mode = 2
+auto_translate = false
+localize_numeral_system = false
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_fjbu8")
+theme_override_font_sizes/font_size = 48
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("3_uxc33")
+icon_size = 48
+icon_name = "right-long"
 
 [node name="UpButton" type="Button" parent="."]
 layout_mode = 2
-text = "Up"
+theme_override_fonts/font = ExtResource("2_fjbu8")
+text = ""
 
 [node name="DownButton" type="Button" parent="."]
 layout_mode = 2
-text = "Dn"
+theme_override_fonts/font = ExtResource("2_fjbu8")
+text = ""
 
 [node name="DeleteButton" type="Button" parent="."]
 layout_mode = 2
-text = "Del"
+theme_override_fonts/font = ExtResource("2_fjbu8")
+text = ""
 
 [node name="CommandRoot" type="MarginContainer" parent="."]
 layout_mode = 2

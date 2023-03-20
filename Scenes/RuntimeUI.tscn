@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://dqdubasucg15o"]
+[gd_scene load_steps=3 format=3 uid="uid://dqdubasucg15o"]
 
 [ext_resource type="Script" path="res://Scenes/RuntimeUI.gd" id="1_u2tmf"]
+[ext_resource type="FontFile" uid="uid://cptnl3mm2w7sq" path="res://addons/fontawesome/fonts/fa-solid-900.woff2" id="2_88167"]
 
 [node name="RuntimeUI" type="Control"]
 layout_mode = 3
@@ -57,13 +58,19 @@ layout_mode = 2
 size_flags_vertical = 8
 
 [node name="RunButton" type="Button" parent="RootContainer/VBoxContainer/HBoxContainer2"]
+modulate = Color(0, 0.831373, 0, 1)
+custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
-text = "Run"
+theme_override_fonts/font = ExtResource("2_88167")
+text = ""
 
 [node name="StopButton" type="Button" parent="RootContainer/VBoxContainer/HBoxContainer2"]
+modulate = Color(0.74902, 0, 0, 1)
+custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
+theme_override_fonts/font = ExtResource("2_88167")
 disabled = true
-text = "Stop"
+text = ""
 
 [connection signal="pressed" from="RootContainer/VBoxContainer/HBoxContainer2/RunButton" to="." method="_on_run_button_pressed"]
 [connection signal="pressed" from="RootContainer/VBoxContainer/HBoxContainer2/StopButton" to="." method="_on_stop_button_pressed"]

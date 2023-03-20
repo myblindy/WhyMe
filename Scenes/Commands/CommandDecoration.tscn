@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://dugfjs5d28mjs"]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://Scenes/Commands/CommandDecoration.gd" id="1_vj1me"]
+[ext_resource type="PackedScene" uid="uid://bglsjbinwy6ff" path="res://Scenes/Controls/PidMarkerControl.tscn" id="2_rk46o"]
 
 [node name="CommandDecoration" type="HBoxContainer"]
 anchors_preset = 15
@@ -10,9 +11,8 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_vj1me")
 
-[node name="CurrentCheckBox" type="CheckBox" parent="."]
+[node name="CurrentCheckBox" parent="." instance=ExtResource("2_rk46o")]
 layout_mode = 2
-disabled = true
 
 [node name="UpButton" type="Button" parent="."]
 layout_mode = 2

@@ -1,0 +1,2 @@
+extends CheckBox
+class_name PidCheckBox

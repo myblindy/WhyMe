@@ -1,0 +1,18 @@
+[gd_scene load_steps=5 format=3 uid="uid://bglsjbinwy6ff"]
+
+[ext_resource type="Texture2D" uid="uid://bplx303mi4pm6" path="res://Assets/right-arrow.png" id="1_0uijw"]
+[ext_resource type="Script" path="res://Scenes/Controls/PidCheckBox.gd" id="3_02dq7"]
+
+[sub_resource type="Gradient" id="Gradient_wk73i"]
+interpolation_mode = 1
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_rg2wa"]
+gradient = SubResource("Gradient_wk73i")
+
+[node name="PidCheckBox" type="CheckBox"]
+modulate = Color(1, 1, 0, 1)
+self_modulate = Color(1, 1, 0, 1)
+theme_override_icons/checked = ExtResource("1_0uijw")
+theme_override_icons/unchecked = SubResource("GradientTexture2D_rg2wa")
+script = ExtResource("3_02dq7")

@@ -1,4 +1,4 @@
-extends Control
+extends CommandBase
 class_name CommandPickup
 
 @onready var _menu_button := $MenuButton
@@ -48,3 +48,11 @@ func _ready() -> void:
 	
 	_rebuild_menu()
 	_set_menu_button_text()
+
+func run() -> void:
+	await _action_wait()
+	
+	var object: WorldObject = GlobalScene.find_object(bot.position)
+	if object:
+		GlobalScene.remove_object(bot.position)
+		bot.held_object_value = object.value

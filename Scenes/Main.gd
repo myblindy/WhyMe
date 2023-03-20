@@ -76,7 +76,7 @@ func _ready() -> void:
 			_game_board_root.add_child(tile)
 			
 			tile.position = Vector2(x, y)
-			tile.tile_kind = GlobalScene.TILE_TYPE.TILE0 if int(x * tile_count.x + y) % 2 == 0 else GlobalScene.TILE_TYPE.TILE1
+			tile.tile_kind = GlobalTypes.TileType.TILE0 if int(x * tile_count.x + y) % 2 == 0 else GlobalTypes.TileType.TILE1
 			tile.z_index = 0
 			
 			var numeric_address: int = GlobalScene.numeric_addresses.get(Vector2(x, y), -1)

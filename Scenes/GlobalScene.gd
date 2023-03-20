@@ -1,15 +1,5 @@
 extends Node
 
-enum TILE_TYPE
-{
-	NONE, TILE0, TILE1
-}
-
-enum MOVE_TYPE
-{
-	MOVE_N, MOVE_E, MOVE_S, MOVE_W
-}
-
 var bots: Array[Bot] = []
 
 signal selected_bot_changed
@@ -40,19 +30,19 @@ const known_commands := [
 	{ scene = preload("res://Scenes/Commands/CommandAdd.tscn"), name = "Add" },
 ]
 
-var commands := []
+var commands: Array[CommandBase] = []
 
 signal run_state_changed
 var run_state := false:
 	get:
 		return run_state
 	set(new_run_state):		
+		for bot in bots:
+			bot.current_command_index = -1
+			
 		if run_state != new_run_state:
 			run_state = new_run_state
 			run_state_changed.emit()
-			
-		for bot in bots:
-			bot.current_command_index = -1
 			
 		if new_run_state:
 			_saved_objects = []
@@ -75,10 +65,14 @@ func remove_object(position: Vector2) -> void:
 			objects_changed.emit()
 			return
 
-func add_object(position: Vector2, object: WorldObject) -> void:
-	var new_object := _world_object_scene.instantiate()
-	new_object.position = position
-	new_object.value = object.value
-	
-	objects.append(new_object)
-	objects_changed.emit()
+func add_object(position: Vector2, object_value: String) -> void:
+	var existing_object := find_object(position)
+	if existing_object:
+		existing_object.value = object_value
+	else:
+		var new_object := _world_object_scene.instantiate()
+		new_object.position = position
+		new_object.value = object_value
+		
+		objects.append(new_object)
+		objects_changed.emit()

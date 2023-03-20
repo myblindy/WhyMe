@@ -3,15 +3,15 @@ extends Node2D
 @onready var _numeric_address_label := $NumericAddress
 @onready var _sprite := $Sprite2D
 
-@export var tile_kind := GlobalScene.TILE_TYPE.NONE:
+@export var tile_kind := GlobalTypes.TileType.NONE:
 	get:
 		return tile_kind
 	set(new_tile_kind):
 		match new_tile_kind:
-			GlobalScene.TILE_TYPE.TILE0:
+			GlobalTypes.TileType.TILE0:
 				_sprite.modulate = Color(0, 0.8, 0, 1)
 				_numeric_address_label.modulate = Color.BLACK
-			GlobalScene.TILE_TYPE.TILE1:
+			GlobalTypes.TileType.TILE1:
 				_numeric_address_label.modulate = Color.WHITE
 				_sprite.modulate = Color(0, 0.4, 0, 1)
 			_:

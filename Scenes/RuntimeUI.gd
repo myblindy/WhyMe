@@ -42,6 +42,7 @@ func _current_command_index_changed() -> void:
 
 func _add_command(command_template) -> void:
 	var command = command_template.scene.instantiate()
+	command.bot = GlobalScene.bots[0]
 	GlobalScene.commands.append(command)
 	
 	var scene: CommandDecoration = _command_decoration_scene.instantiate()

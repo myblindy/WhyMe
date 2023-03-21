@@ -12,11 +12,12 @@ var selected_bot: Bot:
 		if changed:
 			selected_bot_changed.emit()
 
-var numeric_addresses := {
-	Vector2(2, 3): 0,
-	Vector2(2, 4): 1,
-	Vector2(0, 0): 2,
-}
+var numeric_addresses: Array[Vector2] = [
+	Vector2(1, 1), Vector2(2, 1), Vector2(3, 1), Vector2(4, 1),
+	Vector2(1, 2), Vector2(2, 2), Vector2(3, 2), Vector2(4, 2),
+]
+
+var inbox: InOutBox
 
 var _saved_objects: Array[WorldObject]
 var objects: Array[WorldObject] = []
@@ -24,10 +25,10 @@ var objects: Array[WorldObject] = []
 const _world_object_scene := preload("res://Scenes/WorldObject.tscn")
 
 const known_commands := [
-	{ scene = preload("res://Scenes/Commands/CommandMove.tscn"), name = "Move" },
-	{ scene = preload("res://Scenes/Commands/CommandPickup.tscn"), name = "Pickup" },
-	{ scene = preload("res://Scenes/Commands/CommandDrop.tscn"), name = "Drop" },
+	{ scene = preload("res://Scenes/Commands/CommandGet.tscn"), name = "Get" },
+	{ scene = preload("res://Scenes/Commands/CommandPut.tscn"), name = "Put" },
 	{ scene = preload("res://Scenes/Commands/CommandAdd.tscn"), name = "Add" },
+	{ scene = preload("res://Scenes/Commands/CommandSub.tscn"), name = "Sub" },
 ]
 
 var commands: Array[CommandBase] = []
@@ -36,7 +37,7 @@ signal run_state_changed
 var run_state := false:
 	get:
 		return run_state
-	set(new_run_state):		
+	set(new_run_state):
 		for bot in bots:
 			bot.current_command_index = -1
 			

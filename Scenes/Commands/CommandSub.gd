@@ -1,8 +1,8 @@
 extends CommandBase
-class_name CommandAdd
+class_name CommandSub
 
 func _ready() -> void:
-	_initialize_actions("Add", true, false, false)
+	_initialize_actions("Sub", true, false, false)
 
 func run() -> void:
 	if address_selected >= 0:
@@ -12,6 +12,6 @@ func run() -> void:
 	
 	var ground_object = GlobalScene.find_object(bot.position)
 	if ground_object and ground_object.value.is_valid_int() and bot.held_object_value.is_valid_int():
-		bot.held_object_value = str(int(bot.held_object_value) + int(ground_object.value))
+		bot.held_object_value = str(int(bot.held_object_value) - int(ground_object.value))
 	elif ground_object and ground_object.value.is_valid_int() and bot.held_object_value == "":
-		bot.held_object_value = ground_object.value
+		bot.held_object_value = -ground_object.value

@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://bgfxh508odmsf"]
+
+[ext_resource type="PackedScene" uid="uid://cpg4356kqdu52" path="res://Scenes/Commands/CommandBase.tscn" id="1_b7rv7"]
+[ext_resource type="Script" path="res://Scenes/Commands/CommandGet.gd" id="1_jgb1b"]
+
+[node name="CommandGet" instance=ExtResource("1_b7rv7")]
+script = ExtResource("1_jgb1b")

@@ -2,11 +2,14 @@
 
 [ext_resource type="Script" path="res://Scenes/Commands/CommandBase.gd" id="1_x6qvm"]
 
-[node name="CommandBase" type="Control"]
-layout_mode = 3
+[node name="CommandBase" type="HBoxContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_x6qvm")
+
+[node name="Name" type="Label" parent="."]
+layout_mode = 2
+text = "##NAME"

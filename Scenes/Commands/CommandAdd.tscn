@@ -1,10 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://2k7on1dwl2d"]
+[gd_scene load_steps=3 format=3 uid="uid://b4ptagdx6yj3t"]
 
 [ext_resource type="Script" path="res://Scenes/Commands/CommandAdd.gd" id="1_74sqc"]
+[ext_resource type="PackedScene" uid="uid://cpg4356kqdu52" path="res://Scenes/Commands/CommandBase.tscn" id="1_t3rom"]
 
-[node name="CommandAddScene" type="HBoxContainer"]
+[node name="CommandAdd" instance=ExtResource("1_t3rom")]
 script = ExtResource("1_74sqc")
-
-[node name="Label" type="Label" parent="."]
-layout_mode = 2
-text = "Add"

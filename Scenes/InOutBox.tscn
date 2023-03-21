@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://djvae7nqk0je3"]
+
+[ext_resource type="Script" path="res://Scenes/InOutBox.gd" id="1_402mv"]
+
+[node name="InOutBox" type="Node2D"]
+script = ExtResource("1_402mv")

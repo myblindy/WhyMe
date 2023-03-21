@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://ib5jyoym2xvn"]
+
+[ext_resource type="PackedScene" uid="uid://cpg4356kqdu52" path="res://Scenes/Commands/CommandBase.tscn" id="1_ka8k5"]
+[ext_resource type="Script" path="res://Scenes/Commands/CommandSub.gd" id="2_u2k5g"]
+
+[node name="CommandSub" instance=ExtResource("1_ka8k5")]
+script = ExtResource("2_u2k5g")

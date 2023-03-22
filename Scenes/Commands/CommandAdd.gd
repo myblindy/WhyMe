@@ -2,7 +2,7 @@ extends CommandBase
 class_name CommandAdd
 
 func _ready() -> void:
-	_initialize_actions("Add", true, false, false)
+	_initialize_actions("Add", true, false, false, false)
 
 func run() -> void:
 	if address_selected >= 0:

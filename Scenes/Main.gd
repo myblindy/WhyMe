@@ -91,11 +91,17 @@ func _ready() -> void:
 	_add_new_object(Vector2(4, 1), "D")
 	
 	# inbox and outbox
+	const inbox_length := 4
 	GlobalScene.inbox = _in_out_box_scene.instantiate()
-	GlobalScene.inbox.setup(4, true)
-	GlobalScene.inbox.position = Vector2(0, tile_count.y - 4)
+	GlobalScene.inbox.position = Vector2(0, tile_count.y - inbox_length)
+	GlobalScene.inbox.setup(inbox_length, true)
 	_game_board_root.add_child(GlobalScene.inbox)
 	
+	GlobalScene.outbox = _in_out_box_scene.instantiate()
+	GlobalScene.outbox.position = Vector2(tile_count.x - 1, tile_count.y - inbox_length)
+	GlobalScene.outbox.setup(inbox_length, false)
+	_game_board_root.add_child(GlobalScene.outbox)
+
 	# set up the game board transform
 	_game_board_root.position = offset + Vector2(0.5, 0.5) * tile_size
 	_game_board_root.scale = Vector2(real_tile_size.y, real_tile_size.y)

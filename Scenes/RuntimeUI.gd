@@ -6,7 +6,7 @@ extends Control
 @onready var _run_button := $RootContainer/VBoxContainer/HBoxContainer2/RunButton
 @onready var _stop_button := $RootContainer/VBoxContainer/HBoxContainer2/StopButton
 
-var _command_decoration_scene := preload("res://Scenes/Commands/CommandDecoration.tscn")
+const _command_decoration_scene := preload("res://Scenes/Commands/CommandDecoration.tscn")
 
 func _ready() -> void:
 	GlobalScene.run_state_changed.connect(_run_state_changed)
@@ -31,10 +31,11 @@ func _update_all_current_markers() -> void:
 			command_decoration.is_current = i - 1 == GlobalScene.selected_bot.current_command_index if GlobalScene.run_state else false
 			command_decoration.can_move_up = i > 1
 			command_decoration.can_move_down = i < _program_list.get_child_count() - 1
-		
+
 func _run_state_changed() -> void:
 	_run_button.disabled = GlobalScene.run_state
 	_stop_button.disabled = not GlobalScene.run_state
+	_all_command_list.visible = not GlobalScene.run_state
 	_update_all_current_markers()
 	
 func _current_command_index_changed() -> void:
@@ -50,9 +51,14 @@ func _add_command(command_template) -> void:
 	scene.command = command
 	scene.up_pressed.connect(_on_command_decoration_up_pressed.bind(scene))
 	scene.down_pressed.connect(_on_command_decoration_down_pressed.bind(scene))
+	scene.delete_pressed.connect(_on_command_decoration_del_pressed.bind(scene))
 	
 	_update_all_current_markers()
-	
+
+func _on_command_decoration_del_pressed(command_decoration: CommandDecoration) -> void:	
+	_program_list.remove_child(command_decoration)
+	_update_all_current_markers()
+
 func _on_command_decoration_up_pressed(command_decoration: CommandDecoration) -> void:
 	var index = command_decoration.get_index()
 	_program_list.move_child(command_decoration, index - 1)

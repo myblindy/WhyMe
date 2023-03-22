@@ -18,6 +18,10 @@ var numeric_addresses: Array[Vector2] = [
 ]
 
 var inbox: InOutBox
+var inbox_items := [ "1", "2", "3", "10", "20" ]
+
+var outbox: InOutBox
+var expected_outbox_items := [ "3", "5", "7", "21", "41" ]
 
 var _saved_objects: Array[WorldObject]
 var objects: Array[WorldObject] = []
@@ -29,6 +33,7 @@ const known_commands := [
 	{ scene = preload("res://Scenes/Commands/CommandPut.tscn"), name = "Put" },
 	{ scene = preload("res://Scenes/Commands/CommandAdd.tscn"), name = "Add" },
 	{ scene = preload("res://Scenes/Commands/CommandSub.tscn"), name = "Sub" },
+	{ scene = preload("res://Scenes/Commands/CommandBump.tscn"), name = "Bump" },
 ]
 
 var commands: Array[CommandBase] = []
@@ -48,6 +53,11 @@ var run_state := false:
 		if new_run_state:
 			_saved_objects = []
 			_saved_objects.append_array(objects)
+			
+			inbox.clear_objects()
+			for inbox_item in inbox_items:
+				inbox.enqueue_object(inbox_item)
+				
 		else:
 			objects = _saved_objects
 			objects_changed.emit()

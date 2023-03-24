@@ -57,10 +57,11 @@ var run_state := false:
 			inbox.clear_objects()
 			for inbox_item in inbox_items:
 				inbox.enqueue_object(inbox_item)
-				
 		else:
 			objects = _saved_objects
 			objects_changed.emit()
+			outbox.clear_objects()
+			set_error()
 			
 func find_object(position: Vector2) -> WorldObject:
 	for object in objects:
@@ -87,3 +88,21 @@ func add_object(position: Vector2, object_value: String) -> void:
 		
 		objects.append(new_object)
 		objects_changed.emit()
+
+# error stuff
+signal error_changed
+
+class ErrorType:
+	var message: String
+	var provided_value
+	var expected_value
+var _error := ErrorType.new()
+
+func set_error(message: String = "", provided = null, expected = null) -> void:
+	_error.message = message
+	_error.expected_value = expected
+	_error.provided_value = provided
+	error_changed.emit()
+
+func get_error() -> ErrorType:
+	return _error

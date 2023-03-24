@@ -2,7 +2,7 @@ extends Node2D
 class_name InOutBox 
 
 const _scale := Vector2(1.0 / 64.0, 1.0 / 64.0)
-const conveyor_texture: Texture2D = preload("res://Assets/World/conveyor_belt.png")
+const _conveyor_texture: Texture2D = preload("res://Assets/World/conveyor_belt.png")
 
 class QueuedObjectType:
 	var object: WorldObject
@@ -20,14 +20,14 @@ var interact_position: Vector2:
 		return _interact_position
 		
 signal _interaction_available
-func wait_for_interaction_available():
+func wait_for_interaction_available() -> void:
 	if _is_input and len(_object_queue) > 0 and _object_queue[0].object:
 		return
 	if not _is_input and (len(_object_queue) == 0 or not _object_queue[0].object):
 		return
 	await _interaction_available
 
-func setup(cell_count: int, input: bool):
+func setup(cell_count: int, input: bool) -> void:
 	for cell_index in cell_count:
 		var conveyor_sprite := Sprite2D.new()
 		add_child(conveyor_sprite)
@@ -36,7 +36,7 @@ func setup(cell_count: int, input: bool):
 		# enqueue an empty slot
 		_object_queue.append(QueuedObjectType.new())
 		
-		conveyor_sprite.texture = conveyor_texture
+		conveyor_sprite.texture = _conveyor_texture
 		conveyor_sprite.scale = _scale
 		conveyor_sprite.position = Vector2(0, cell_index)
 		
@@ -46,7 +46,8 @@ func setup(cell_count: int, input: bool):
 	_interact_position = position + Vector2(1 if input else -1, 0)
 	_is_input = input
 
-func enqueue_object(value: String):
+signal object_enqueued
+func enqueue_object(value: String) -> void:
 	var new_object := QueuedObjectType.new()
 	var new_world_object: WorldObject = GlobalScene._world_object_scene.instantiate()
 	new_world_object.value = value
@@ -72,6 +73,9 @@ func enqueue_object(value: String):
 		# unfreeze everything to make room for more
 		for object in _object_queue:
 			object.frozen = false
+			
+		# notify observers that we have a new item
+		object_enqueued.emit()
 
 func dequeue_object() -> String:
 	if len(_object_queue) > 0 and _object_queue[0].object:
@@ -82,11 +86,19 @@ func dequeue_object() -> String:
 		return value
 	return ""
 
-func clear_objects():
+func clear_objects() -> void:
 	for object in _object_queue:
 		if object.object:
 			remove_child(object.object)
 	_object_queue.clear()
+	
+func get_objects() -> Array[String]:
+	var result: Array[String] = []
+	
+	for object in _object_queue:
+		if object.object and object.object.value != "":
+			result.append(object.object.value)
+	return result
 
 func _process_input(delta: float) -> void:
 	for object_queue_index in len(_object_queue):

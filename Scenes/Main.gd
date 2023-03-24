@@ -101,7 +101,16 @@ func _ready() -> void:
 	GlobalScene.outbox.position = Vector2(tile_count.x - 1, tile_count.y - inbox_length)
 	GlobalScene.outbox.setup(inbox_length, false)
 	_game_board_root.add_child(GlobalScene.outbox)
+	
+	# outbox result check
+	GlobalScene.outbox.object_enqueued.connect(_outbox_object_enqueued)
 
 	# set up the game board transform
 	_game_board_root.position = offset + Vector2(0.5, 0.5) * tile_size
 	_game_board_root.scale = Vector2(real_tile_size.y, real_tile_size.y)
+
+func _outbox_object_enqueued() -> void:
+	var current_objects := GlobalScene.outbox.get_objects()
+	if len(current_objects) <= len(GlobalScene.expected_outbox_items):
+		if current_objects != GlobalScene.expected_outbox_items.slice(0, len(current_objects)):
+			GlobalScene.set_error("Wrong item sent to outbox", current_objects[-1], GlobalScene.expected_outbox_items[len(current_objects) - 1])

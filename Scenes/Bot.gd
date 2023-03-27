@@ -29,14 +29,25 @@ func _run_state_changed() -> void:
 	else:
 		_stop_run()
 
+var forced_next_command_index	# for jumps
 var current_command: CommandBase
 func _start_run() -> void:
 	#save old state
 	_saved_position = position
+	forced_next_command_index = null
 	
 	#main bot loop
-	while GlobalScene.run_state and current_command_index < GlobalScene.commands.size() - 1:
-		current_command_index += 1
+	while GlobalScene.run_state:
+		if forced_next_command_index != null:
+			current_command_index = forced_next_command_index
+			forced_next_command_index = null
+		else:
+			current_command_index += 1
+			
+		# defer this check until after we set the forced index
+		if current_command_index >= GlobalScene.commands.size():
+			break
+			
 		current_command = GlobalScene.commands[current_command_index]
 		await current_command.run()
 		

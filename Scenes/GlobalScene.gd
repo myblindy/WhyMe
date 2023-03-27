@@ -34,6 +34,8 @@ const known_commands := [
 	{ scene = preload("res://Scenes/Commands/CommandAdd.tscn"), name = "Add" },
 	{ scene = preload("res://Scenes/Commands/CommandSub.tscn"), name = "Sub" },
 	{ scene = preload("res://Scenes/Commands/CommandBump.tscn"), name = "Bump" },
+	{ scene = preload("res://Scenes/Commands/CommandLabel.tscn"), name = "Label" },
+	{ scene = preload("res://Scenes/Commands/CommandJump.tscn"), name = "Jump" },
 ]
 
 var commands: Array[CommandBase] = []

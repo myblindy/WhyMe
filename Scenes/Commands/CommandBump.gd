@@ -2,7 +2,9 @@ extends CommandBase
 class_name CommandBump
 
 func _ready() -> void:
-	_initialize_actions("Bump", false, false, false, true)
+	var params := InitializeParameters.new("Bump")
+	params.plus_minus = true
+	_initialize_actions(params)
 
 func run() -> void:
 	await _action_wait()

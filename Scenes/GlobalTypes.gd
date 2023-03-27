@@ -10,3 +10,8 @@ enum MoveType
 {
 	NONE, MOVE_N, MOVE_E, MOVE_S, MOVE_W
 }
+
+enum JumpType
+{
+	ALL, NEGATIVE_VALUE
+}

@@ -2,7 +2,10 @@ extends CommandBase
 class_name CommandGet
 
 func _ready() -> void:
-	_initialize_actions("Get", true, true, false, false)
+	var params := InitializeParameters.new("Get")
+	params.addresses = true
+	params.inbox = true
+	_initialize_actions(params)
 
 func run() -> void:
 	await _move()	

@@ -2,7 +2,10 @@ extends CommandBase
 class_name CommandDrop
 
 func _ready() -> void:
-	_initialize_actions("Put", true, false, true, false)
+	var params := InitializeParameters.new("Put")
+	params.addresses = true
+	params.outbox = true
+	_initialize_actions(params)
 
 func run() -> void:
 	await _move()

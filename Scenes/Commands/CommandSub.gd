@@ -2,7 +2,9 @@ extends CommandBase
 class_name CommandSub
 
 func _ready() -> void:
-	_initialize_actions("Sub", true, false, false, false)
+	var params := InitializeParameters.new("Sub")
+	params.addresses = true
+	_initialize_actions(params)
 
 func run() -> void:
 	if address_selected >= 0:

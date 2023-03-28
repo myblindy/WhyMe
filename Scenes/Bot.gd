@@ -52,7 +52,7 @@ func _start_run() -> void:
 		await current_command.run()
 		
 func _stop_run() -> void:
-	#restore old state
+	# restore old state
 	position = _saved_position
 	held_object_value = ""
 	

@@ -51,6 +51,7 @@ func _initialize_actions(params: InitializeParameters) -> void:
 	if params.inbox or params.outbox or params.addresses or params.plus_minus:
 		add_child(addresses_menu_button)
 		addresses_menu_button_popup.index_pressed.emit(0)
+		_menu_button_to_popup = addresses_menu_button
 		
 	# create label
 	if params.create_label:
@@ -93,6 +94,7 @@ func _initialize_actions(params: InitializeParameters) -> void:
 		add_menu_popup.call("ANY", func(): jump_type = GlobalTypes.JumpType.ALL)
 		add_menu_popup.call("-", func(): jump_type = GlobalTypes.JumpType.NEGATIVE_VALUE)
 		menu_popup.index_pressed.emit(0)
+		_menu_button_to_popup = menu
 		
 	if params.use_labels:
 		var menu := MenuButton.new()
@@ -115,11 +117,17 @@ func _initialize_actions(params: InitializeParameters) -> void:
 				if command is CommandLabel:
 					var index := menu_popup.item_count
 					menu_popup.add_item(command.label_name)
+					if menu.text == "":
+						menu.text = command.label_name
 					handlers[index] = func():
 						menu.text = command.label_name
 						jump_to_label_name = command.label_name
 			)
-		menu.show_popup()
+		_menu_button_to_popup = menu
+		
+# if set, pop up its menu on _process to work around the layout not having finished 
+# when it's created or deferred
+var _menu_button_to_popup: MenuButton
 
 var inbox_selected := false
 var outbox_selected := false
@@ -129,7 +137,7 @@ var plus_minus_selected := -1
 var jump_to_label_name: String
 var jump_type: GlobalTypes.JumpType
 
-func _select_item(inbox: bool, outbox: bool, address: int, plus_minus: int):
+func _select_item(inbox: bool, outbox: bool, address: int, plus_minus: int) -> void:
 	if inbox:
 		outbox = false
 		address = -1
@@ -179,16 +187,16 @@ func _move_to_position(target: Vector2) -> void:
 	while true:
 		var dv: Vector2
 		var move_type := GlobalTypes.MoveType.NONE
-		if bot.position.x > target.x:
+		if int(bot.position.x) > int(target.x):
 			dv = Vector2(-1, 0)
 			move_type = GlobalTypes.MoveType.MOVE_W
-		elif bot.position.x < target.x:
+		elif int(bot.position.x) < int(target.x):
 			dv = Vector2(1, 0)
 			move_type = GlobalTypes.MoveType.MOVE_E
-		elif bot.position.y > target.y:
+		elif int(bot.position.y) > int(target.y):
 			dv = Vector2(0, -1)
 			move_type = GlobalTypes.MoveType.MOVE_N
-		elif bot.position.y < target.y:
+		elif int(bot.position.y) < int(target.y):
 			dv = Vector2(0, 1)
 			move_type = GlobalTypes.MoveType.MOVE_S
 		
@@ -201,12 +209,14 @@ func _move_to_position(target: Vector2) -> void:
 			bot.command_tween.tween_property(bot, "position", bot.position + dv, 1.0)
 			await bot.command_tween.finished
 		else:
+			# center the bot
+			bot.position = Vector2(int(bot.position.x), int(bot.position.y))
 			break
 			
-func _move_to_address(index: int):
+func _move_to_address(index: int) -> void:
 	await _move_to_position(GlobalScene.numeric_addresses[index])
 	
-func _move():
+func _move() -> void:
 	if address_selected >= 0:
 		await _move_to_address(address_selected)
 	elif inbox_selected:
@@ -215,7 +225,7 @@ func _move():
 		await _move_to_position(GlobalScene.outbox.interact_position)
 
 # waits for the duration of a normal action 
-func _action_wait():
+func _action_wait() -> void:
 	await get_tree().create_timer(1).timeout
 
 func run() -> void:
@@ -223,3 +233,9 @@ func run() -> void:
 	
 func stop() -> void:
 	pass
+
+func _process(_delta: float) -> void:
+	# thank you, chatgpt!
+	if _menu_button_to_popup:
+		_menu_button_to_popup.show_popup()
+		_menu_button_to_popup = null

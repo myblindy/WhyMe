@@ -111,6 +111,9 @@ func _ready() -> void:
 
 func _outbox_object_enqueued() -> void:
 	var current_objects := GlobalScene.outbox.get_objects()
-	if len(current_objects) <= len(GlobalScene.expected_outbox_items):
+	if len(current_objects) < len(GlobalScene.expected_outbox_items):
 		if current_objects != GlobalScene.expected_outbox_items.slice(0, len(current_objects)):
 			GlobalScene.set_error("Wrong item sent to outbox", current_objects[-1], GlobalScene.expected_outbox_items[len(current_objects) - 1])
+	elif len(current_objects) == len(GlobalScene.expected_outbox_items) and current_objects == GlobalScene.expected_outbox_items:
+		# success
+		pass

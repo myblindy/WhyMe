@@ -1,0 +1,6 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bawijjm3kjrau"]
+
+[ext_resource type="Shader" path="res://Assets/World/conveyor_belt_animated_shader.gdshader" id="1_a2gnv"]
+
+[resource]
+shader = ExtResource("1_a2gnv")

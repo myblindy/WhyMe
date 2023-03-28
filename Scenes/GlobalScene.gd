@@ -59,11 +59,13 @@ var run_state := false:
 			inbox.clear_objects()
 			for inbox_item in inbox_items:
 				inbox.enqueue_object(inbox_item)
+				
+			# leave the error and outbox queue alone until we restart
+			outbox.clear_objects()
+			set_error()
 		else:
 			objects = _saved_objects
 			objects_changed.emit()
-			outbox.clear_objects()
-			set_error()
 			
 func find_object(position: Vector2) -> WorldObject:
 	for object in objects:
@@ -105,6 +107,9 @@ func set_error(message: String = "", provided = null, expected = null) -> void:
 	_error.expected_value = expected
 	_error.provided_value = provided
 	error_changed.emit()
+	
+	if message:
+		GlobalScene.run_state = false	# stop the run
 
 func get_error() -> ErrorType:
 	return _error

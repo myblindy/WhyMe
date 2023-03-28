@@ -56,7 +56,11 @@ func _add_command(command_template) -> void:
 	_update_all_current_markers()
 
 func _on_command_decoration_del_pressed(command_decoration: CommandDecoration) -> void:	
+	var index = command_decoration.get_index()
 	_program_list.remove_child(command_decoration)
+	
+	GlobalScene.commands.remove_at(index)
+	
 	_update_all_current_markers()
 
 func _on_command_decoration_up_pressed(command_decoration: CommandDecoration) -> void:

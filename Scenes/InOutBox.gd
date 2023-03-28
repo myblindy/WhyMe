@@ -2,7 +2,8 @@ extends Node2D
 class_name InOutBox 
 
 const _scale := Vector2(1.0 / 64.0, 1.0 / 64.0)
-const _conveyor_texture: Texture2D = preload("res://Assets/World/conveyor_belt.png")
+const _conveyor_texture := preload("res://Assets/World/conveyor_belt.png")
+const _conveyor_material := preload("res://Assets/World/conveyor_belt_animated_shader_material.tres")
 
 class QueuedObjectType:
 	var object: WorldObject
@@ -37,6 +38,7 @@ func setup(cell_count: int, input: bool) -> void:
 		_object_queue.append(QueuedObjectType.new())
 		
 		conveyor_sprite.texture = _conveyor_texture
+		conveyor_sprite.material = _conveyor_material
 		conveyor_sprite.scale = _scale
 		conveyor_sprite.position = Vector2(0, cell_index)
 		
@@ -81,6 +83,7 @@ func dequeue_object() -> String:
 	if len(_object_queue) > 0 and _object_queue[0].object:
 		remove_child(_object_queue[0].object)
 		var value := _object_queue[0].object.value
+		_object_queue[0].object = null
 		for object in _object_queue:
 			object.frozen = false
 		return value
@@ -98,6 +101,7 @@ func get_objects() -> Array[String]:
 	for object in _object_queue:
 		if object.object and object.object.value != "":
 			result.append(object.object.value)
+	result.reverse()
 	return result
 
 func _process_input(delta: float) -> void:
@@ -143,7 +147,9 @@ func _process_output(delta: float) -> void:
 				_object_queue[object_queue_index + 1].frozen = true
 				_object_queue[object_queue_index + 1].object = object.object
 				_object_queue[object_queue_index + 1].object.position.y = object_queue_index + 1
+				_object_queue[object_queue_index + 1].offset = object.offset - 1
 				object.object = null
+				object.offset = 0
 				
 				if object_queue_index == 0:
 					_interaction_available.emit()

@@ -1,6 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://dcfvtmlmep88k"]
+[gd_scene load_steps=5 format=3 uid="uid://dcfvtmlmep88k"]
 
 [ext_resource type="Script" path="res://Scenes/Victory.gd" id="1_kevib"]
+[ext_resource type="Shader" path="res://Assets/victory_background_blur.gdshader" id="2_08w68"]
+[ext_resource type="Texture2D" uid="uid://bxc16ruut6425" path="res://Assets/white-pixel.png" id="3_su3tr"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_d8epg"]
+shader = ExtResource("2_08w68")
 
 [node name="Victory" type="Control"]
 layout_mode = 3
@@ -10,6 +15,17 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_kevib")
+
+[node name="BackBufferCopy" type="BackBufferCopy" parent="."]
+position = Vector2(1100, 410.5)
+scale = Vector2(2.1, 2.055)
+copy_mode = 2
+
+[node name="BlurSprite" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_d8epg")
+scale = Vector2(1883, 1044)
+texture = ExtResource("3_su3tr")
+centered = false
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 1

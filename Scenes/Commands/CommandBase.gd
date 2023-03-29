@@ -20,6 +20,7 @@ func _initialize_actions(params: InitializeParameters) -> void:
 	$Name.text = params.name
 	
 	var addresses_menu_button := MenuButton.new()
+	addresses_menu_button.size = Vector2(addresses_menu_button.size.x * 2, addresses_menu_button.size.y)
 	var addresses_menu_button_popup := addresses_menu_button.get_popup()
 		
 	var _add_item := func(text: String, action: Callable):
@@ -35,7 +36,7 @@ func _initialize_actions(params: InitializeParameters) -> void:
 	if params.inbox:
 		_add_item.call("inbox", func(): _select_item(true, false, -1, -1))
 	if params.outbox:
-		_add_item.call("outbox", func(): _select_item(false, true, -1, -1))
+		_add_item.call("outbox ", func(): _select_item(false, true, -1, -1))
 	
 	# addresses
 	if params.addresses:

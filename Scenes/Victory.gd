@@ -12,7 +12,4 @@ func _on_next_level_button_pressed() -> void:
 func _ready() -> void:
 	GlobalScene.current_level_index_changed.connect(func():
 		_next_level_button.disabled = GlobalScene.current_level_index >= len(GlobalScene.levels))
-
-func _input(event: InputEvent) -> void:
-	if visible:
-		accept_event()
+	$BlurSprite.scale = get_viewport_rect().size

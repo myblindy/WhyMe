@@ -39,7 +39,7 @@ func _initialize_actions(params: InitializeParameters) -> void:
 	
 	# addresses
 	if params.addresses:
-		for address_index in len(GlobalScene.numeric_addresses):
+		for address_index in len(GlobalScene.levels[GlobalScene.current_level_index].numeric_addresses):
 			_add_item.call(str(address_index + 1), func(): _select_item(false, false, address_index, -1))
 	
 	# +/-
@@ -119,6 +119,7 @@ func _initialize_actions(params: InitializeParameters) -> void:
 					menu_popup.add_item(command.label_name)
 					if menu.text == "":
 						menu.text = command.label_name
+						self.jump_to_label_name = command.label_name
 					handlers[index] = func():
 						menu.text = command.label_name
 						jump_to_label_name = command.label_name

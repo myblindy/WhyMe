@@ -1,4 +1,5 @@
 extends Node2D
+class_name GroundTile
 
 @onready var _numeric_address_label := $NumericAddress
 @onready var _sprite := $Sprite2D

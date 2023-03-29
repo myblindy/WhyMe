@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://bbfs3y2mnjhdh"]
+[gd_scene load_steps=4 format=3 uid="uid://bbfs3y2mnjhdh"]
 
 [ext_resource type="Script" path="res://Scenes/Main.gd" id="1_ivip1"]
 [ext_resource type="PackedScene" uid="uid://dqdubasucg15o" path="res://Scenes/RuntimeUI.tscn" id="2_hxw8n"]
+[ext_resource type="PackedScene" uid="uid://dcfvtmlmep88k" path="res://Scenes/Victory.tscn" id="3_ltlqj"]
 
 [node name="MainLevel" type="Node2D"]
 script = ExtResource("1_ivip1")
@@ -9,5 +10,8 @@ script = ExtResource("1_ivip1")
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="RuntimeUI" parent="CanvasLayer" instance=ExtResource("2_hxw8n")]
+
+[node name="Victory" parent="CanvasLayer" instance=ExtResource("3_ltlqj")]
+visible = false
 
 [node name="GameBoardRoot" type="Node2D" parent="."]

@@ -1,6 +1,8 @@
 extends Node2D
 
 @onready var _game_board_root := $GameBoardRoot
+@onready var _runtime_ui := $CanvasLayer/RuntimeUI
+@onready var _victory := $CanvasLayer/Victory
 
 const tile_count := Vector2(7, 7)
 var tile_size: Vector2
@@ -46,6 +48,20 @@ func _ready() -> void:
 	window_size = get_viewport().size
 	GlobalScene.objects_changed.connect(_objects_changed)
 	
+	GlobalScene.current_level_index_changed.connect(func():
+		# stop
+		GlobalScene.run_state = false
+		
+		# reset the program
+		GlobalScene.commands.clear()
+		_runtime_ui.clear_program()
+		
+		# load addresses
+		for tile in _game_board_root.get_children():
+			if tile is GroundTile:
+				tile.numeric_address = GlobalScene.levels[GlobalScene.current_level_index].numeric_addresses.find(tile.position)
+		)
+	
 	# bots
 	var first := true
 	var offset: Vector2
@@ -80,16 +96,6 @@ func _ready() -> void:
 			tile.tile_kind = GlobalTypes.TileType.TILE0 if int(x * tile_count.x + y) % 2 == 0 else GlobalTypes.TileType.TILE1
 			tile.z_index = 0
 			
-			var numeric_address := GlobalScene.numeric_addresses.find(Vector2(x, y))
-			if(numeric_address >= 0):
-				tile.numeric_address = numeric_address
-
-	# objects
-	_add_new_object(Vector2(1, 1), "3")
-	_add_new_object(Vector2(2, 1), "5")
-	_add_new_object(Vector2(3, 1), "C")
-	_add_new_object(Vector2(4, 1), "D")
-	
 	# inbox and outbox
 	const inbox_length := 4
 	GlobalScene.inbox = _in_out_box_scene.instantiate()
@@ -108,12 +114,21 @@ func _ready() -> void:
 	# set up the game board transform
 	_game_board_root.position = offset + Vector2(0.5, 0.5) * tile_size
 	_game_board_root.scale = Vector2(real_tile_size.y, real_tile_size.y)
+	
+	# load the level
+	GlobalScene.current_level_index = 0
 
 func _outbox_object_enqueued() -> void:
 	var current_objects := GlobalScene.outbox.get_objects()
-	if len(current_objects) < len(GlobalScene.expected_outbox_items):
-		if current_objects != GlobalScene.expected_outbox_items.slice(0, len(current_objects)):
-			GlobalScene.set_error("Wrong item sent to outbox", current_objects[-1], GlobalScene.expected_outbox_items[len(current_objects) - 1])
-	elif len(current_objects) == len(GlobalScene.expected_outbox_items) and current_objects == GlobalScene.expected_outbox_items:
+	var current_level = GlobalScene.levels[GlobalScene.current_level_index]
+	var expected_outbox_items: Array = current_level.expected_outbox_items
+	if len(current_objects) < len(expected_outbox_items):
+		if current_objects != expected_outbox_items.slice(0, len(current_objects)):
+			GlobalScene.set_error("Wrong item sent to outbox", current_objects[-1], expected_outbox_items[len(current_objects) - 1])
+	elif len(current_objects) == len(expected_outbox_items) and current_objects == expected_outbox_items:
 		# success
-		pass
+		_victory.show()
+		await _victory.next_level_pressed
+		_victory.hide()
+		
+		GlobalScene.current_level_index += 1

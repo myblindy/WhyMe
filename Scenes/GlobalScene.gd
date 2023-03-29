@@ -12,16 +12,37 @@ var selected_bot: Bot:
 		if changed:
 			selected_bot_changed.emit()
 
-var numeric_addresses: Array[Vector2] = [
-	Vector2(1, 1), Vector2(2, 1), Vector2(3, 1), Vector2(4, 1),
-	Vector2(1, 2), Vector2(2, 2), Vector2(3, 2), Vector2(4, 2),
+var levels := [
+	{
+		"inbox_items": [ "1", "A", "C", "10" ],
+		"expected_outbox_items": [ "1", "A", "C", "10" ],
+		"name": "Simple Copy",
+		"description": "Simply copy the input to the output",
+		"numeric_addresses": []
+	},
+	{
+		"inbox_items": [ "1", "2", "3", "10", "20" ],
+		"expected_outbox_items": [ "3", "5", "7", "21", "41" ],
+		"name": "Double Plus One",
+		"description": "Double the input number and increment it by one",
+		"numeric_addresses": [
+			Vector2(1, 1), Vector2(2, 1), Vector2(3, 1), Vector2(4, 1),
+			Vector2(1, 2), Vector2(2, 2), Vector2(3, 2), Vector2(4, 2),
+		]
+	}
 ]
 
+signal current_level_index_changed
+var current_level_index := -1:
+	get:
+		return current_level_index
+	set(new_current_level_index):
+		if current_level_index != new_current_level_index:
+			current_level_index = new_current_level_index
+			current_level_index_changed.emit()
+			
 var inbox: InOutBox
-var inbox_items := [ "1", "2", "3", "10", "20" ]
-
 var outbox: InOutBox
-var expected_outbox_items := [ "3", "5", "7", "21", "41" ]
 
 var _saved_objects: Array[WorldObject]
 var objects: Array[WorldObject] = []
@@ -57,7 +78,7 @@ var run_state := false:
 			_saved_objects.append_array(objects)
 			
 			inbox.clear_objects()
-			for inbox_item in inbox_items:
+			for inbox_item in levels[current_level_index].inbox_items:
 				inbox.enqueue_object(inbox_item)
 				
 			# leave the error and outbox queue alone until we restart

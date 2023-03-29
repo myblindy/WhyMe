@@ -3,14 +3,21 @@ extends Control
 @onready var _all_command_list := $RootContainer/VBoxContainer/HBoxContainer/AllCommandList
 @onready var _program_list := $RootContainer/VBoxContainer/HBoxContainer/MarginContainer/ProgramList
 
-@onready var _run_button := $RootContainer/VBoxContainer/HBoxContainer2/RunButton
-@onready var _stop_button := $RootContainer/VBoxContainer/HBoxContainer2/StopButton
+@onready var _run_button := $RootContainer/VBoxContainer/HBoxTitle/RunButton
+@onready var _stop_button := $RootContainer/VBoxContainer/HBoxTitle/StopButton
+
+@onready var _level_name_label := $RootContainer/VBoxContainer/HBoxTitle/LevelName
+@onready var _level_description_label := $RootContainer/VBoxContainer/Description
 
 const _command_decoration_scene := preload("res://Scenes/Commands/CommandDecoration.tscn")
 
 func _ready() -> void:
 	GlobalScene.run_state_changed.connect(_run_state_changed)
 	GlobalScene.selected_bot_changed.connect(_selected_bot_changed)
+	
+	GlobalScene.current_level_index_changed.connect(func():
+		_level_name_label.text = GlobalScene.levels[GlobalScene.current_level_index].name
+		_level_description_label.text = GlobalScene.levels[GlobalScene.current_level_index].description)
 	
 	for command_template in GlobalScene.known_commands:
 		var button := Button.new()
@@ -88,3 +95,7 @@ func _on_run_button_pressed() -> void:
 
 func _on_stop_button_pressed() -> void:
 	GlobalScene.run_state = false
+
+func clear_program():
+	while _program_list.get_child_count() > 1:
+		_program_list.remove_child(_program_list.get_child(1))

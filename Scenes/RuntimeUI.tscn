@@ -61,18 +61,22 @@ scroll_active = false
 threaded = true
 script = ExtResource("2_pb3fx")
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="RootContainer/VBoxContainer"]
+[node name="HBoxTitle" type="HBoxContainer" parent="RootContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 8
 
-[node name="RunButton" type="Button" parent="RootContainer/VBoxContainer/HBoxContainer2"]
+[node name="LevelName" type="Label" parent="RootContainer/VBoxContainer/HBoxTitle"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 46
+
+[node name="RunButton" type="Button" parent="RootContainer/VBoxContainer/HBoxTitle"]
 modulate = Color(0, 0.831373, 0, 1)
 custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_88167")
 text = ""
 
-[node name="StopButton" type="Button" parent="RootContainer/VBoxContainer/HBoxContainer2"]
+[node name="StopButton" type="Button" parent="RootContainer/VBoxContainer/HBoxTitle"]
 modulate = Color(0.74902, 0, 0, 1)
 custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
@@ -80,5 +84,9 @@ theme_override_fonts/font = ExtResource("2_88167")
 disabled = true
 text = ""
 
-[connection signal="pressed" from="RootContainer/VBoxContainer/HBoxContainer2/RunButton" to="." method="_on_run_button_pressed"]
-[connection signal="pressed" from="RootContainer/VBoxContainer/HBoxContainer2/StopButton" to="." method="_on_stop_button_pressed"]
+[node name="Description" type="Label" parent="RootContainer/VBoxContainer"]
+layout_mode = 2
+autowrap_mode = 2
+
+[connection signal="pressed" from="RootContainer/VBoxContainer/HBoxTitle/RunButton" to="." method="_on_run_button_pressed"]
+[connection signal="pressed" from="RootContainer/VBoxContainer/HBoxTitle/StopButton" to="." method="_on_stop_button_pressed"]

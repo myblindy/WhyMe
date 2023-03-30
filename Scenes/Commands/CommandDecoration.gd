@@ -1,8 +1,11 @@
-extends HBoxContainer
+extends Container
 class_name CommandDecoration
 
-@onready var _pid_marker := $PidMarker
-@onready var _command_root := $CommandRoot
+@onready var _pid_marker := $HBoxContainer/PidMarker
+@onready var _command_root := $HBoxContainer/CommandRoot
+
+@onready var _delete_overlay1 := $DeleteOverlay1
+@onready var _delete_overlay2 := $DeleteOverlay2
 
 var command:
 	get: 
@@ -23,10 +26,21 @@ var is_current: bool:
 		is_current = new_is_current
 		_pid_marker.modulate = Color.WHITE if is_current else Color.TRANSPARENT
 
+var is_about_to_delete: bool:
+	get:
+		return is_about_to_delete
+	set(new_is_about_to_delete):
+		if is_about_to_delete != new_is_about_to_delete:
+			is_about_to_delete = new_is_about_to_delete
+			_delete_overlay1.visible = is_about_to_delete
+			_delete_overlay2.visible = is_about_to_delete
+
 var _program_list: BoxContainer
 var _dragging := false
 var _drag_start_position: Vector2
 func _on_grip_marker_gui_input(event: InputEvent) -> void:
+	const x_offset_for_delete := -100
+	
 	if event is InputEventMouseButton:
 		if not _dragging and event.button_index == 1 and event.pressed:
 			# start drag
@@ -41,7 +55,12 @@ func _on_grip_marker_gui_input(event: InputEvent) -> void:
 			# end drag
 			_dragging = false
 			
-			# position back
+			# delete?
+			if position.x < x_offset_for_delete:
+				_program_list.remove_child(self)
+				GlobalScene.commands.remove_at(GlobalScene.commands.find(command))
+			
+			# position back in place
 			set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 			
 			accept_event()
@@ -71,8 +90,16 @@ func _on_grip_marker_gui_input(event: InputEvent) -> void:
 		if target_program_entry != self:
 			_program_list.move_child(self, target_program_entry_index)
 			
-			
 			GlobalScene.commands.remove_at(my_command_index)
 			GlobalScene.commands.insert(target_program_entry_index - 1, command)
 		
+		is_about_to_delete = position.x < x_offset_for_delete
+		
 		accept_event()
+
+func _on_resized() -> void:
+	if _delete_overlay1 and _delete_overlay2:
+		_delete_overlay1.points[1] = size
+	
+		_delete_overlay2.points[0].y = size.y
+		_delete_overlay2.points[1].x = size.x

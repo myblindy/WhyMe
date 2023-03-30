@@ -16,7 +16,8 @@ var current_command_index := -1:
 var command_tween: Tween
 
 func play_animation(animation_name: String) -> void:
-	_animation_player.play(animation_name)
+	if _animation_player.current_animation != animation_name:
+		_animation_player.play(animation_name)
 	
 func _ready() -> void:
 	GlobalScene.run_state_changed.connect(_run_state_changed)

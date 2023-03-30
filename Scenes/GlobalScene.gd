@@ -88,6 +88,8 @@ var run_state := false:
 			objects = _saved_objects
 			objects_changed.emit()
 			
+			bots[0].position = Vector2.ZERO
+			
 func find_object(position: Vector2) -> WorldObject:
 	for object in objects:
 		if object.position == position:

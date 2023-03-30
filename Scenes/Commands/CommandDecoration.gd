@@ -40,24 +40,39 @@ func _on_grip_marker_gui_input(event: InputEvent) -> void:
 		elif _dragging and event.button_index == 1 and not event.pressed:
 			# end drag
 			_dragging = false
+			
+			# position back
+			set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+			
 			accept_event()
 	elif event is InputEventMouseMotion and _dragging:
 		# dragging
 		global_position = get_global_mouse_position() - _drag_start_position
 		
 		# figure out where to reposition in the list
-		var current_program_entry: Control
-		var current_program_entry_index := -1
+		var target_program_entry: Control
+		var target_program_entry_index := -1
 		for program_entry in _program_list.get_children():
+			target_program_entry_index += 1
 			if program_entry is CommandDecoration:
 				if program_entry.global_position.y > global_position.y:
 					break
 				else:
-					current_program_entry = program_entry
-			current_program_entry_index += 1
+					target_program_entry = program_entry
 		
 		# moved?
-		if current_program_entry != self:
-			_program_list.move_child(self, current_program_entry_index)
+		target_program_entry_index = max(1, target_program_entry_index)
+		var my_command_index = GlobalScene.commands.find(command)
+		if target_program_entry_index > my_command_index:
+			target_program_entry_index -= 1
+		if GlobalScene.commands[-1].global_position.y + GlobalScene.commands[-1].size.y <= global_position.y:
+			target_program_entry_index += 1
+			
+		if target_program_entry != self:
+			_program_list.move_child(self, target_program_entry_index)
+			
+			
+			GlobalScene.commands.remove_at(my_command_index)
+			GlobalScene.commands.insert(target_program_entry_index - 1, command)
 		
 		accept_event()

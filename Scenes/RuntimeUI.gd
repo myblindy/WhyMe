@@ -36,8 +36,8 @@ func _update_all_current_markers() -> void:
 		if i > 0:
 			var command_decoration: CommandDecoration = _program_list.get_child(i)
 			command_decoration.is_current = i - 1 == GlobalScene.selected_bot.current_command_index if GlobalScene.run_state else false
-			command_decoration.can_move_up = i > 1
-			command_decoration.can_move_down = i < _program_list.get_child_count() - 1
+			#command_decoration.can_move_up = i > 1
+			#command_decoration.can_move_down = i < _program_list.get_child_count() - 1
 
 func _run_state_changed() -> void:
 	_run_button.disabled = GlobalScene.run_state
@@ -56,9 +56,9 @@ func _add_command(command_template) -> void:
 	var scene: CommandDecoration = _command_decoration_scene.instantiate()
 	_program_list.add_child(scene)
 	scene.command = command
-	scene.up_pressed.connect(_on_command_decoration_up_pressed.bind(scene))
-	scene.down_pressed.connect(_on_command_decoration_down_pressed.bind(scene))
-	scene.delete_pressed.connect(_on_command_decoration_del_pressed.bind(scene))
+	#scene.up_pressed.connect(_on_command_decoration_up_pressed.bind(scene))
+	#scene.down_pressed.connect(_on_command_decoration_down_pressed.bind(scene))
+	#scene.delete_pressed.connect(_on_command_decoration_del_pressed.bind(scene))
 	
 	_update_all_current_markers()
 

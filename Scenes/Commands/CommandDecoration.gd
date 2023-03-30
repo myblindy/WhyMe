@@ -2,8 +2,6 @@ extends HBoxContainer
 class_name CommandDecoration
 
 @onready var _pid_marker := $PidMarker
-@onready var _up_button := $UpButton
-@onready var _down_button := $DownButton
 @onready var _command_root := $CommandRoot
 
 var command:
@@ -24,30 +22,42 @@ var is_current: bool:
 	set(new_is_current):
 		is_current = new_is_current
 		_pid_marker.modulate = Color.WHITE if is_current else Color.TRANSPARENT
+
+var _program_list: BoxContainer
+var _dragging := false
+var _drag_start_position: Vector2
+func _on_grip_marker_gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton:
+		if not _dragging and event.button_index == 1 and event.pressed:
+			# start drag
+			_dragging = true
+			_drag_start_position = get_global_mouse_position() - global_position
+			
+			if not _program_list:
+				_program_list = get_parent()
+			
+			accept_event()
+		elif _dragging and event.button_index == 1 and not event.pressed:
+			# end drag
+			_dragging = false
+			accept_event()
+	elif event is InputEventMouseMotion and _dragging:
+		# dragging
+		global_position = get_global_mouse_position() - _drag_start_position
 		
-var can_move_up := true:
-	get:
-		return can_move_up
-	set(new_can_move_up):
-		can_move_up = new_can_move_up
-		_up_button.disabled = not can_move_up
-
-var can_move_down := true:
-	get:
-		return can_move_down
-	set(new_can_move_down):
-		can_move_down = new_can_move_down
-		_down_button.disabled = not can_move_down
+		# figure out where to reposition in the list
+		var current_program_entry: Control
+		var current_program_entry_index := -1
+		for program_entry in _program_list.get_children():
+			if program_entry is CommandDecoration:
+				if program_entry.global_position.y > global_position.y:
+					break
+				else:
+					current_program_entry = program_entry
+			current_program_entry_index += 1
 		
-signal up_pressed
-signal down_pressed
-signal delete_pressed
-
-func _on_up_button_pressed() -> void:
-	up_pressed.emit()
-
-func _on_down_button_pressed() -> void:
-	down_pressed.emit()
-
-func _on_delete_button_pressed() -> void:
-	delete_pressed.emit()
+		# moved?
+		if current_program_entry != self:
+			_program_list.move_child(self, current_program_entry_index)
+		
+		accept_event()

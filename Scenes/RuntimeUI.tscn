@@ -64,6 +64,7 @@ script = ExtResource("2_pb3fx")
 [node name="HBoxTitle" type="HBoxContainer" parent="RootContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 8
+theme_override_constants/separation = 5
 
 [node name="LevelName" type="Label" parent="RootContainer/VBoxContainer/HBoxTitle"]
 layout_mode = 2
@@ -83,6 +84,12 @@ layout_mode = 2
 theme_override_fonts/font = ExtResource("2_88167")
 disabled = true
 text = ""
+
+[node name="HSlider" type="HSlider" parent="RootContainer/VBoxContainer/HBoxTitle"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+tick_count = 10
 
 [node name="Description" type="Label" parent="RootContainer/VBoxContainer"]
 layout_mode = 2

@@ -10,9 +10,11 @@ config_version=5
 
 [application]
 
-config/name="WhyMe"
+config/name="Bug Blues"
 run/main_scene="res://Scenes/Main.tscn"
 config/features=PackedStringArray("4.0", "Forward Plus")
+boot_splash/bg_color=Color(0.168627, 0, 0.380392, 1)
+boot_splash/show_image=false
 config/icon="res://icon.svg"
 
 [autoload]
@@ -24,10 +26,11 @@ GlobalScene="*res://Scenes/GlobalScene.tscn"
 window/size/viewport_width=1920
 window/size/viewport_height=1080
 window/size/borderless=true
+window/vsync/vsync_mode=2
 
 [dotnet]
 
-project/assembly_name="WhyMe"
+project/assembly_name="Bug Blues"
 
 [editor_plugins]
 
@@ -38,3 +41,7 @@ enabled=PackedStringArray("res://addons/fontawesome/plugin.cfg")
 theme/default_theme_scale=2.0
 theme/custom_font="res://Assets/Fonts/OpenSans-Regular.ttf"
 theme/default_font_multichannel_signed_distance_field=true
+
+[rendering]
+
+environment/defaults/default_clear_color=Color(0.156863, 0, 0.317647, 1)
